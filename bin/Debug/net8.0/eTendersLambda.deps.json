@@ -1,0 +1,95 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "eTendersLambda/1.0.0": {
+        "dependencies": {
+          "Amazon.Lambda.Core": "2.7.0",
+          "Amazon.Lambda.RuntimeSupport": "1.13.1",
+          "Amazon.Lambda.Serialization.SystemTextJson": "2.4.4"
+        },
+        "runtime": {
+          "eTendersLambda.dll": {}
+        }
+      },
+      "Amazon.Lambda.Core/2.7.0": {
+        "runtime": {
+          "lib/net8.0/Amazon.Lambda.Core.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Amazon.Lambda.RuntimeSupport/1.13.1": {
+        "dependencies": {
+          "Amazon.Lambda.Core": "2.7.0",
+          "SnapshotRestore.Registry": "1.0.1"
+        },
+        "runtime": {
+          "lib/net8.0/Amazon.Lambda.RuntimeSupport.dll": {
+            "assemblyVersion": "1.13.1.0",
+            "fileVersion": "1.13.1.0"
+          }
+        }
+      },
+      "Amazon.Lambda.Serialization.SystemTextJson/2.4.4": {
+        "dependencies": {
+          "Amazon.Lambda.Core": "2.7.0"
+        },
+        "runtime": {
+          "lib/net8.0/Amazon.Lambda.Serialization.SystemTextJson.dll": {
+            "assemblyVersion": "0.0.0.0",
+            "fileVersion": "0.0.0.0"
+          }
+        }
+      },
+      "SnapshotRestore.Registry/1.0.1": {
+        "runtime": {
+          "lib/net8.0/SnapshotRestore.Registry.dll": {
+            "assemblyVersion": "1.0.1.0",
+            "fileVersion": "1.0.1.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "eTendersLambda/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Amazon.Lambda.Core/2.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MUl+uIpB00yE8TwmW4ICEE3hd7DEgIWu94a7sFtAHoKz+skS52splHDxN/syId2E5STSYHCertdJSv7Qg1JdSA==",
+      "path": "amazon.lambda.core/2.7.0",
+      "hashPath": "amazon.lambda.core.2.7.0.nupkg.sha512"
+    },
+    "Amazon.Lambda.RuntimeSupport/1.13.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6F5TE3MkV98P3jHzb73chSP1VOdRnqlwb3ESC8J2kjLa5Lf9g9nlzuxBYd/b5Dw8AnXiyLlc6YDiuKjIafeSdQ==",
+      "path": "amazon.lambda.runtimesupport/1.13.1",
+      "hashPath": "amazon.lambda.runtimesupport.1.13.1.nupkg.sha512"
+    },
+    "Amazon.Lambda.Serialization.SystemTextJson/2.4.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-iv/cvqFuZ3v3+NFDyof0IJZvU+4kdpzOe3pWSBwp9HB885I+D32WQxuid9V4GnvRynER9XnWMPaDmImX8qH5cA==",
+      "path": "amazon.lambda.serialization.systemtextjson/2.4.4",
+      "hashPath": "amazon.lambda.serialization.systemtextjson.2.4.4.nupkg.sha512"
+    },
+    "SnapshotRestore.Registry/1.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UdA5y8wpa6dHiV4+J9MveLr6GRDB1llTmb4c+MeRYRoWKVNC5Y+nTDcC16/QAyw1dRry+aPS1yAy6f57mS+Xfw==",
+      "path": "snapshotrestore.registry/1.0.1",
+      "hashPath": "snapshotrestore.registry.1.0.1.nupkg.sha512"
+    }
+  }
+}
