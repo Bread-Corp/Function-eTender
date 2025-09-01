@@ -16,18 +16,27 @@ The `lambda_handler` is the main entry point for this service. It performs the f
 ## 3. Data Model (`models.py`)
 This service uses a data model consistent with the Eskom service, relying on the same abstract base class for structure.
 
-`TenderBase` **(Abstract Class)**
+`TenderBase` **(Abstract Class)**   
 This is the same foundational class used in the Eskom service, defining the core attributes common to all tenders:
-- Core Attributes: `title`, `description`, `source`, `published_date`, `closing_date`, `supporting_docs`, `tags`.
+- **Core Attributes**:
+    - `title`: The title of the tender.
+    - `description`: A detailed description.
+    - `source`: The origin of the tender (hardcoded to "eTenders").
+    - `published_date`: The date the tender was published.
+    - `closing_date`: The submission deadline.
+    - `supporting_docs`: A list of `SupportingDoc` objects.
+    - `tags`: A list of keywords or categories.
 
-`eTender` **(Concrete Class)**
+`eTender` **(Concrete Class)**  
 This class inherits from `TenderBase` and adds fields specific to the data provided by the eTenders API.
 - **Inherited Attributes**: All attributes from TenderBase.
 - **eTender-Specific Attributes**:
-    - `tender_number`: The unique tender number from the portal.
-    - `category`: The category of the tender (e.g., "Civil Engineering").
-    - `tender_type`: The type of procurement (e.g., "Request for Bid").
-    - `department`: The government department issuing the tender.
+    - `tender_number`: The unique tender number from the portal (populated from the `tender_No` field in the API).
+    - `audience`: The issuing body or organ of state (from `organ_of_State`).
+    - `office_location`: The location of the briefing venue (from `briefingVenue`).
+    - `email`: Contact email address.
+    - `address`: A full address constructed from street, suburb, town, and code fields.
+    - `province`: The province where the tender is located.
 
 ## AI Tagging Initialization
 As with the Eskom service, the `eTender` model explicitly handles the `tags` attribute. In the `from_api_response` method, the `tags` field is **always initialized to an empty list ([])**.

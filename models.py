@@ -139,8 +139,6 @@ class TenderBase(ABC):
 # ==================================================================================================
 # Class: eTender
 # Purpose: A concrete implementation of TenderBase for eTenders portal tenders.
-# NOTE: This class was not present in the original files but is created based on the
-# usage in the eTendersLambda/lambda_handler.py to provide a complete, working example.
 # ==================================================================================================
 class eTender(TenderBase):
     """
