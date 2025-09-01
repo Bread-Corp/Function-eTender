@@ -1,49 +1,44 @@
-# AWS Lambda Empty Function Project
+# eTenders Processing Lambda Service
+## 1. Overview
+This service contains an AWS Lambda function responsible for scraping tender information from the National Treasury's eTenders portal API. Its function is analogous to the Eskom service: it fetches raw tender data, validates it against a specific data model, and sends it to an Amazon SQS queue for further processing.
 
-This starter project consists of:
-* Function.cs - class file containing a class with a single function handler method
-* aws-lambda-tools-defaults.json - default argument settings for use with Visual Studio and command line deployment tools for AWS
+This service allows the data pipeline to ingest tenders from multiple sources while maintaining a consistent workflow and data structure.
 
-You may also have a test project depending on the options selected.
+## 2. Lambda Function (`lambda_handler.py`)
+The `lambda_handler` is the main entry point for this service. It performs the following steps:
+1. **Fetch Data**: It sends an HTTP GET request to the eTenders paginated API endpoint to retrieve a list of open tenders.
+2. **Error Handling**: It handles potential network errors and API response issues, ensuring the function fails gracefully.
+3. **Data Extraction**: The eTenders API nests the actual list of tenders within a `data` key in the main JSON response. The function safely extracts this list.
+4. **Data Parsing & Validation**: It iterates through each tender in the list. Each item is processed using the `eTender` model, which cleans and validates the data (e.g., parsing dates, constructing document URLs). Tenders that fail validation are skipped and logged.
+5. **Batching**: Valid tenders are grouped into batches of up to 10 messages for efficient sending to SQS.
+6. **Queueing**: Each batch is sent to the central `AIQueue.fifo` SQS queue. To distinguish these tenders from Eskom's, a unique `MessageGroupId` of `eTenderScrape` is assigned. This allows the FIFO queue to process groups of tenders from different sources independently while maintaining order within each group.
 
-The generated function handler is a simple method accepting a string argument that returns the uppercase equivalent of the input string. Replace the body of this method, and parameters, to suit your needs. 
+## 3. Data Model (`models.py`)
+This service uses a data model consistent with the Eskom service, relying on the same abstract base class for structure.
 
-## Here are some steps to follow from Visual Studio:
+`TenderBase` **(Abstract Class)**
+This is the same foundational class used in the Eskom service, defining the core attributes common to all tenders:
+- Core Attributes: `title`, `description`, `source`, `published_date`, `closing_date`, `supporting_docs`, `tags`.
 
-To deploy your function to AWS Lambda, right click the project in Solution Explorer and select *Publish to AWS Lambda*.
+`eTender` **(Concrete Class)**
+This class inherits from `TenderBase` and adds fields specific to the data provided by the eTenders API.
+- **Inherited Attributes**: All attributes from TenderBase.
+- **eTender-Specific Attributes**:
+    - `tender_number`: The unique tender number from the portal.
+    - `category`: The category of the tender (e.g., "Civil Engineering").
+    - `tender_type`: The type of procurement (e.g., "Request for Bid").
+    - `department`: The government department issuing the tender.
 
-To view your deployed function open its Function View window by double-clicking the function name shown beneath the AWS Lambda node in the AWS Explorer tree.
+## AI Tagging Initialization
+As with the Eskom service, the `eTender` model explicitly handles the `tags` attribute. In the `from_api_response` method, the `tags` field is **always initialized to an empty list ([])**.
 
-To perform testing against your deployed function use the Test Invoke tab in the opened Function View window.
-
-To configure event sources for your deployed function, for example to have your function invoked when an object is created in an Amazon S3 bucket, use the Event Sources tab in the opened Function View window.
-
-To update the runtime configuration of your deployed function use the Configuration tab in the opened Function View window.
-
-To view execution logs of invocations of your function use the Logs tab in the opened Function View window.
-
-## Here are some steps to follow to get started from the command line:
-
-Once you have edited your template and code you can deploy your application using the [Amazon.Lambda.Tools Global Tool](https://github.com/aws/aws-extensions-for-dotnet-cli#aws-lambda-amazonlambdatools) from the command line.
-
-Install Amazon.Lambda.Tools Global Tools if not already installed.
 ```
-    dotnet tool install -g Amazon.Lambda.Tools
+# From models.py
+return cls(
+    # ... other fields
+    tags=[],  # Initialize tags as an empty list, ready for the AI service.
+    # ... other fields
+)
 ```
 
-If already installed check if new version is available.
-```
-    dotnet tool update -g Amazon.Lambda.Tools
-```
-
-Execute unit tests
-```
-    cd "eTendersLambda/test/eTendersLambda.Tests"
-    dotnet test
-```
-
-Deploy function to AWS Lambda
-```
-    cd "eTendersLambda/src/eTendersLambda"
-    dotnet lambda deploy-function
-```
+This design ensures that every tender object sent to the SQS queue has a `tags` field, even though the source API does not provide this information. This creates a uniform data contract for the downstream AI tagging service, which can then reliably access the `tags` list and populate it with relevant keywords.
