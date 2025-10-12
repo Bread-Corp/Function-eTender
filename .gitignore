@@ -1,0 +1,23 @@
+# Python test artifacts
+__pycache__/
+*.py[cod]
+*.log
+
+# Coverage and cache
+.coverage
+.cache/
+htmlcov/
+coverage.xml
+
+# Test data files
+unit_test/test_data/
+*.json
+*.db
+*.sqlite3
+
+# Test output
+*.out
+*.tmp
+*.bak
+
+.vs/
