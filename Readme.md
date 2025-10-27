@@ -1,4 +1,4 @@
-# 🌐 eTenders Processing Lambda Service — National Treasury Scraper
+# 🌐 eTenders Processing Lambda Service
 
 [![AWS Lambda](https://img.shields.io/badge/AWS-Lambda-orange.svg)](https://aws.amazon.com/lambda/)
 [![Python 3.9](https://img.shields.io/badge/Python-3.9-blue.svg)](https://www.python.org/)
