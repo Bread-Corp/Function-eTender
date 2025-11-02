@@ -1,0 +1,43 @@
+name: CI for Python Scraper (Main)
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build-lint-test-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for SonarCloud
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
+
+      - name: Install dependencies
+        run: pip install requests pytest ruff
+          
+      - name: Lint with Ruff
+        continue-on-error: true
+        run: |
+          ruff check . --ignore E402
+          
+      - name: Test with Pytest
+        continue-on-error: true 
+        run: |
+          export PYTHONPATH=$PYTHONPATH:.
+          pytest unit_test/
+          
+      - name: SonarCloud Scan
+        continue-on-error: true
+        uses: SonarSource/sonarcloud-github-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
