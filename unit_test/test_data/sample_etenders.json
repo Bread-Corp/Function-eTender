@@ -1,0 +1,29 @@
+[
+    {
+        "id": "123",
+        "description": "Upgrade of Roads",
+        "datePublished": "2025-10-01T09:00:00",
+        "closingDate": "2025-10-31T16:00:00",
+        "tenderNo": "ET123",
+        "categoryName": "Infrastructure",
+        "tenderType": "Open",
+        "departmentName": "Transport",
+        "supportingDocuments": [
+            {
+                "name": "Specs.pdf",
+                "url": "https://etenders.gov.za/docs/specs.pdf"
+            }
+        ]
+    },
+    {
+        "id": null,
+        "description": "Missing ID Tender",
+        "datePublished": "2025-10-01T09:00:00",
+        "closingDate": "2025-10-31T16:00:00",
+        "tenderNo": "ET999",
+        "categoryName": "Maintenance",
+        "tenderType": "Closed",
+        "departmentName": "Public Works",
+        "supportingDocuments": []
+    }
+]

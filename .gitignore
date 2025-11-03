@@ -10,8 +10,6 @@ htmlcov/
 coverage.xml
 
 # Test data files
-unit_test/test_data/
-*.json
 *.db
 *.sqlite3
 
